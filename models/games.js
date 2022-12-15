@@ -18,7 +18,27 @@ exports.allReviews = () => {
 
 exports.getReviewByRequest = (review_id) => {
   return db
-    .query ("SELECT * FROM reviews WHERE review_id = $1;", [review_id]
-    )
+    .query("SELECT * FROM reviews WHERE review_id = $1;", [review_id])
     .then((result) => result.rows[0]);
+};
+
+// exports.getCommentsByReviewId = async (review_id) => {
+//   console.log("reached models")
+//   const dbOutput = db.query("SELECT * FROM comments WHERE review_id = $1;", [
+//     review_id,
+//   ]);
+//   if (dbOutput.rows.length === 0) {
+//     return Promise.reject({
+//       status: 404,
+//       msg: "No such path found. Try again...",
+//     });
+//   }
+// };
+
+exports.getCommentsByReviewId = (review_id) => {
+  return db
+    .query("SELECT * FROM comments WHERE review_id = $1;", [review_id])
+    .then((result) => {
+      return result.rows;
+    });
 };

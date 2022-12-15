@@ -23,7 +23,7 @@ describe("Standard error messages", () => {
   });
 });
 
-describe("1. GET request.", () => {
+describe("1. GET requests.", () => {
   test("sends back an array of games categories", () => {
     return request(app)
       .get("/api/categories")
@@ -87,9 +87,48 @@ describe("Sepcific review request /api/reviews/:review_id", () => {
             review_img_url: expect.any(String),
             created_at: expect.any(String),
             votes: expect.any(Number),
-            designer: expect.any(String)
+            designer: expect.any(String),
           })
         );
+      });
+  });
+});
+
+describe("Sepcific comments request by review ID /api/reviews/:review_id/comments", () => {
+  test("sends back an object of specific comments when requested with a review ID", () => {
+    return request(app)
+      .get("/api/reviews/2/comments")
+      .expect(200)
+      .then(({ body }) => {
+        const commentsArr = body.comments;
+        commentsArr.forEach((comment) => {
+          expect(comment).toEqual(
+            expect.objectContaining({
+              comment_id: expect.any(Number),
+              votes: expect.any(Number),
+              created_at: expect.any(String),
+              author: expect.any(String),
+              body: expect.any(String),
+              review_id: expect.any(Number),
+            })
+          );
+        });
+      });
+  });
+  test("returns 200 status with message of no comments when valid review_id is provided but there are no comments", () => {
+    return request(app)
+      .get("/api/reviews/6/comments")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.comments).toEqual([]);
+      });
+  });
+  test("status 404 when bad request has been made", () => {
+    return request(app)
+      .get("/api/reviews/40/comments")
+      .expect(404)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("No such path found. Try again...");
       });
   });
 });
