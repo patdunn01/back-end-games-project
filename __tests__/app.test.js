@@ -132,3 +132,74 @@ describe("Sepcific comments request by review ID /api/reviews/:review_id/comment
       });
   });
 });
+
+describe("3. POST requests.", () => {
+  test("status 201 adds a new comment object to the comments table and returns the added object", () => {
+    const newComment = {
+      user_name: "mallionaire",
+      body: "What a game!",
+    };
+    return request(app)
+      .post("/api/reviews/4/comments")
+      .send(newComment)
+      .expect(201)
+      .then(({ body }) => {
+        expect(body.comment).toEqual(
+          expect.objectContaining({
+            comment_id: expect.any(Number),
+            body: "What a game!",
+            review_id: 4,
+            author: "mallionaire",
+            votes: expect.any(Number),
+            created_at: expect.any(String),
+          })
+        );
+      });
+  });
+  test("status 404 when given an invalid user_name property", () => {
+    const newComment = {
+      user_name: "board_gamer_90",
+      body: "unwanted comment",
+    };
+    return request(app)
+      .post("/api/reviews/4/comments")
+      .send(newComment)
+      .expect(404)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Nothing found for this. Try again...");
+      });
+  });
+  test("status 404 when given a review_id property that doesn't exist", () => {
+    const newComment = {
+      user_name: "mallionaire",
+      body: "unwanted comment",
+    };
+    return request(app)
+      .post("/api/reviews/30/comments")
+      .send(newComment)
+      .expect(404)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Nothing found for this. Try again...");
+      });
+  });
+  test("status 400 when given an empty object body", () => {
+    const newComment = {};
+    return request(app)
+      .post("/api/reviews/3/comments")
+      .send(newComment)
+      .expect(400)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Please input all fields");
+      });
+  });
+  test("status 400 when given an invalid reviewId", () => {
+    const newComment = {};
+    return request(app)
+      .post("/api/reviews/three/comments")
+      .send(newComment)
+      .expect(400)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Invalid review ID");
+      });
+  });
+});

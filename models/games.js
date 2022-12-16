@@ -22,23 +22,26 @@ exports.getReviewByRequest = (review_id) => {
     .then((result) => result.rows[0]);
 };
 
-// exports.getCommentsByReviewId = async (review_id) => {
-//   console.log("reached models")
-//   const dbOutput = db.query("SELECT * FROM comments WHERE review_id = $1;", [
-//     review_id,
-//   ]);
-//   if (dbOutput.rows.length === 0) {
-//     return Promise.reject({
-//       status: 404,
-//       msg: "No such path found. Try again...",
-//     });
-//   }
-// };
-
 exports.getCommentsByReviewId = (review_id) => {
   return db
     .query("SELECT * FROM comments WHERE review_id = $1;", [review_id])
     .then((result) => {
       return result.rows;
+    });
+};
+
+exports.createsNewComment = (newComment, reviewID) => {
+  const { body, user_name } = newComment;
+  return db
+    .query(
+      `INSERT INTO comments (body, review_id, author)
+      VALUES 
+        ($1, $2, $3)
+      RETURNING *;
+    `,
+      [body, reviewID, user_name]
+    )
+    .then((result) => {
+      return result.rows[0];
     });
 };

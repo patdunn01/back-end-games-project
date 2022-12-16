@@ -3,6 +3,7 @@ const {
   allReviews,
   getReviewByRequest,
   getCommentsByReviewId,
+  createsNewComment,
 } = require("../models/games");
 
 exports.getCategories = (request, response) => {
@@ -24,7 +25,7 @@ exports.getReviewsById = (request, response) => {
   });
 };
 
-exports.getCommentsById = (request, response, next) => {
+exports.getCommentsById = (request, response) => {
   const review_id = request.params.review_id;
   Promise.all([
     getReviewByRequest(review_id),
@@ -36,4 +37,14 @@ exports.getCommentsById = (request, response, next) => {
       response.status(404).send({ msg: "No such path found. Try again..." });
     }
   });
+};
+
+exports.addCommentByReviewId = (request, response, next) => {
+  createsNewComment(request.body, request.params.review_id)
+    .then((comment) => {
+      response.status(201).send({ comment });
+    })
+    .catch((error) => {
+      next(error);
+    });
 };
