@@ -6,7 +6,7 @@
   "scripts": {
     "setup-dbs": "psql -f ./db/setup.sql",
     "seed": "node ./db/seeds/run-seed.js",
-    "test": "psql -f ./db/data/test-data/test-data.sql && PGDATABASE=nc_games_test jest",
+    "test": "PGDATABASE=nc_games_test jest --verbose",
     "prepare": "husky install",
     "scrap-test": "psql -f ./scrap-test.sql > scrap-test.txt",
     "start": "node listen.js",

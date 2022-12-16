@@ -18,7 +18,31 @@ exports.allReviews = () => {
 
 exports.getReviewByRequest = (review_id) => {
   return db
-    .query ("SELECT * FROM reviews WHERE review_id = $1;", [review_id]
-    )
+    .query("SELECT * FROM reviews WHERE review_id = $1;", [review_id])
     .then((result) => result.rows[0]);
+};
+
+exports.getCommentsByReviewId = (review_id) => {
+  return db
+    .query("SELECT * FROM comments WHERE review_id = $1;", [review_id])
+    .then((result) => {
+      return result.rows;
+    });
+};
+
+exports.createsNewComment = (newComment, reviewID) => {
+  const { body, user_name } = newComment;
+  return db
+    .query(
+      `INSERT INTO comments (body, review_id, author)
+      VALUES 
+        ($1, $2, $3)
+      RETURNING *;
+    `,
+      [body, reviewID, user_name]
+    )
+    .then((result) => {
+      console.log(result, "result")
+      return result.rows[0];
+    });
 };

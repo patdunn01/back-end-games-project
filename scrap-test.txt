@@ -34,8 +34,7 @@ You are now connected to database "nc_games_test" as user "patrickdunn".
         13 | Settlers of Catan: Don't Settle For Less             | social deduction | Klaus Teuber           | mallionaire     | You have stumbled across an uncharted island rich in natural resources, but you are not alone; other adventurers have come ashore too, and the race to settle the island of Catan has begun! Whether you exert military force, build a road to rival the Great Wall, trade goods with ships from the outside world, or some combination of all three, the aim is the same: to dominate the island. Will you prevail? Proceed strategically, trade wisely, and may the odds be in favour.                                                                                                                                                                                                                                                                                                                    | https://images.pexels.com/photos/163064/play-stone-network-networked-interactive-163064.jpeg                    | 1970-01-10 03:08:38.4   |    16
 (13 rows)
 
- review_id |  title   | category  |   designer    |    owner    |  review_body  |                              review_img_url                               |       created_at        | votes 
------------+----------+-----------+---------------+-------------+---------------+---------------------------------------------------------------------------+-------------------------+-------
-         1 | Agricola | euro game | Uwe Rosenberg | mallionaire | Farmyard fun! | https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png | 2021-01-18 10:00:20.514 |     1
-(1 row)
+ comment_id | body | review_id | author | votes | created_at 
+------------+------+-----------+--------+-------+------------
+(0 rows)
 

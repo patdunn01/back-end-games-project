@@ -16,4 +16,6 @@ SELECT * FROM reviews;
 -- FROM reviews 
 -- WHERE reviews.review_id = $1;
 
-SELECT * FROM reviews WHERE review_id = $1;
+--SELECT * FROM reviews WHERE review_id = $1;
+
+SELECT * FROM comments WHERE review_id = 1;
