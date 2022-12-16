@@ -156,7 +156,7 @@ describe("3. POST requests.", () => {
         );
       });
   });
-  test("status 400 when given an invalid user_name property", () => {
+  test("status 404 when given an invalid user_name property", () => {
     const newComment = {
       user_name: "board_gamer_90",
       body: "unwanted comment",
@@ -169,7 +169,7 @@ describe("3. POST requests.", () => {
         expect(msg).toBe("Bad request. Try again...");
       });
   });
-  test("status 404 when given an invalid review_id property", () => {
+  test("status 404 when given a review_id property that doesn't exist", () => {
     const newComment = {
       user_name: "mallionaire",
       body: "unwanted comment",
@@ -189,7 +189,21 @@ describe("3. POST requests.", () => {
       .send(newComment)
       .expect(400)
       .then(({ body: { msg } }) => {
-        expect(msg).toBe("Please input information");
+        expect(msg).toBe("Please input all fields");
+      });
+  });
+  test("status 400 when given an invalid reviewId", () => {
+    const newComment = {};
+    return request(app)
+      .post("/api/reviews/three/comments")
+      .send(newComment)
+      .expect(400)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Invalid review ID");
       });
   });
 });
+
+// describe('UPDATE requests.', () => {
+//   test("status ")
+// })
