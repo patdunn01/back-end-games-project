@@ -42,11 +42,7 @@ exports.getCommentsById = (request, response) => {
 exports.addCommentByReviewId = (request, response, next) => {
   createsNewComment(request.body, request.params.review_id)
     .then((comment) => {
-      if (comment) {
       response.status(201).send({ comment });
-      } else {
-        response.status(404).send({ msg: "No such reviewID found. Try again..." });
-      }
     })
     .catch((error) => {
       next(error);

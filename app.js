@@ -11,6 +11,7 @@ const {
   addCommentByReviewId
 } = require("./controllers/games");
 const { handle404Errors } = require("./controllers/games.errors");
+const { entries } = require("./db/data/test-data/comments");
 
 //Get Requests
 
@@ -25,7 +26,7 @@ app.post("/api/reviews/:review_id/comments", addCommentByReviewId)
 
 app.use((err, req, res, next) => {
   if (err.code === '23503') {
-    res.status(404).send({ msg: 'Bad request. Try again...' });
+    res.status(404).send({ msg: "Nothing found for this. Try again..." });
   } else next(err);
 });
 

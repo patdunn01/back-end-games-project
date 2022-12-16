@@ -166,7 +166,7 @@ describe("3. POST requests.", () => {
       .send(newComment)
       .expect(404)
       .then(({ body: { msg } }) => {
-        expect(msg).toBe("Bad request. Try again...");
+        expect(msg).toBe("Nothing found for this. Try again...");
       });
   });
   test("status 404 when given a review_id property that doesn't exist", () => {
@@ -179,7 +179,7 @@ describe("3. POST requests.", () => {
       .send(newComment)
       .expect(404)
       .then(({ body: { msg } }) => {
-        expect(msg).toBe("Bad request. Try again...");
+        expect(msg).toBe("Nothing found for this. Try again...");
       });
   });
   test("status 400 when given an empty object body", () => {
