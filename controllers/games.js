@@ -40,7 +40,6 @@ exports.getCommentsById = (request, response) => {
 };
 
 exports.addCommentByReviewId = (request, response, next) => {
-  //console.log(request.params.review_id)
   createsNewComment(request.body, request.params.review_id)
     .then((comment) => {
       if (comment) {
@@ -53,5 +52,3 @@ exports.addCommentByReviewId = (request, response, next) => {
       next(error);
     });
 };
-
-//23503 error code 404

@@ -203,7 +203,3 @@ describe("3. POST requests.", () => {
       });
   });
 });
-
-// describe('UPDATE requests.', () => {
-//   test("status ")
-// })

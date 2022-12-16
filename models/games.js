@@ -42,24 +42,6 @@ exports.createsNewComment = (newComment, reviewID) => {
       [body, reviewID, user_name]
     )
     .then((result) => {
-      console.log(result, "result");
-      return result.rows[0];
-    });
-};
-
-exports.increaseVotes = (votes, reviewID) => {
-  const { body } = addedVotes;
-  return db
-    .query(
-      `UPDATE reviews 
-    SET 
-        votes = votes + 1
-    WHERE review_id = 1
-    RETURNING *;
-    `,
-      [body, review_ID]
-    )
-    .then((result) => {
       return result.rows[0];
     });
 };
