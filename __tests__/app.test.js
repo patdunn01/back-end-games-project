@@ -72,7 +72,7 @@ describe("1. GET requests.", () => {
   });
 });
 
-describe("Sepcific review request /api/reviews/:review_id", () => {
+describe("2. Sepcific review request /api/reviews/:review_id", () => {
   test("sends back an object of a specific review request", () => {
     return request(app)
       .get("/api/reviews/2")
@@ -94,7 +94,7 @@ describe("Sepcific review request /api/reviews/:review_id", () => {
   });
 });
 
-describe("Sepcific comments request by review ID /api/reviews/:review_id/comments", () => {
+describe("3. Sepcific comments request by review ID /api/reviews/:review_id/comments", () => {
   test("sends back an object of specific comments when requested with a review ID", () => {
     return request(app)
       .get("/api/reviews/2/comments")
@@ -133,7 +133,7 @@ describe("Sepcific comments request by review ID /api/reviews/:review_id/comment
   });
 });
 
-describe("3. POST requests.", () => {
+describe("4. POST requests.", () => {
   test("status 201 adds a new comment object to the comments table and returns the added object", () => {
     const newComment = {
       user_name: "mallionaire",
@@ -193,7 +193,10 @@ describe("3. POST requests.", () => {
       });
   });
   test("status 400 when given an invalid reviewId", () => {
-    const newComment = {};
+    const newComment = {
+      user_name: "mallionaire",
+      body: "unwanted comment",
+    };
     return request(app)
       .post("/api/reviews/three/comments")
       .send(newComment)
@@ -203,3 +206,62 @@ describe("3. POST requests.", () => {
       });
   });
 });
+
+describe("5. UPDATE requests.", () => {
+  test("status 200 when given update request", () => {
+    const updateRequest = {
+      inc_votes: 1,
+    };
+    return request(app)
+      .patch("/api/reviews/2")
+      .send(updateRequest)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.review).toEqual(
+          expect.objectContaining({
+            title: "Jenga",
+            designer: "Leslie Scott",
+            owner: "philippaclaire9",
+            review_img_url:
+              "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+            review_body: "Fiddly fun for all the family",
+            category: "dexterity",
+            votes: 6,
+          })
+        );
+      });
+  });
+  test("status 404 when given a review_id that does not exist", () => {
+    const updateRequest = {
+      inc_votes: 1,
+    };
+    return request(app)
+      .patch("/api/reviews/40")
+      .send(updateRequest)
+      .expect(404)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Review ID does not exist");
+      });
+  });
+  test("status 400 when passed an invalid review_id", () => {
+    const updateRequest = {};
+    return request(app)
+      .patch("/api/reviews/four")
+      .send(updateRequest)
+      .expect(400)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Invalid review ID");
+      });
+  });
+  test("status 400 when passed an empty object", () => {
+    const updateRequest = {};
+    return request(app)
+      .patch("/api/reviews/4")
+      .send(updateRequest)
+      .expect(400)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Please input all fields");
+      });
+  });
+});
+

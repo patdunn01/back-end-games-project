@@ -8,7 +8,8 @@ const {
   getReviews,
   getReviewsById,
   getCommentsById,
-  addCommentByReviewId
+  addCommentByReviewId,
+  increaseVotesById
 } = require("./controllers/games");
 const { handle404Errors } = require("./controllers/games.errors");
 const { entries } = require("./db/data/test-data/comments");
@@ -23,6 +24,12 @@ app.get("/api/reviews/:review_id/comments", getCommentsById);
 //Post Requests
 
 app.post("/api/reviews/:review_id/comments", addCommentByReviewId)
+
+//Patch Requests
+
+app.patch("/api/reviews/:review_id/", increaseVotesById)
+
+//Error Handlers
 
 app.use((err, req, res, next) => {
   if (err.code === '23503') {

@@ -4,6 +4,7 @@ const {
   getReviewByRequest,
   getCommentsByReviewId,
   createsNewComment,
+  increaseVotes,
 } = require("../models/games");
 
 exports.getCategories = (request, response) => {
@@ -47,4 +48,18 @@ exports.addCommentByReviewId = (request, response, next) => {
     .catch((error) => {
       next(error);
     });
+};
+
+exports.increaseVotesById = (request, response, next) => {
+  increaseVotes(request.body, request.params.review_id)
+  .then((review) => {
+    if (review) {
+      response.status(200).send({ review });
+    } else {
+      response.status(404).send({ msg: "Review ID does not exist" });
+    }
+  })
+  .catch((error) => {
+    next(error);
+  })
 };
