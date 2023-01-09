@@ -42,7 +42,6 @@ exports.createsNewComment = (newComment, reviewID) => {
       [body, reviewID, user_name]
     )
     .then((result) => {
-      console.log(result);
       return result.rows[0];
     });
 };
@@ -63,3 +62,5 @@ exports.increaseVotes = (votes, reviewID) => {
       return result.rows[0];
     });
 };
+
+//promise.reject

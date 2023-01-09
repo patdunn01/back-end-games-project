@@ -131,6 +131,14 @@ describe("3. Sepcific comments request by review ID /api/reviews/:review_id/comm
         expect(msg).toBe("No such path found. Try again...");
       });
   });
+  test("status 400 when bad request has been made", () => {
+    return request(app)
+      .get("/api/reviews/forty/comments")
+      .expect(400)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("No such path found. Try again...");
+      });
+  });
 });
 
 describe("4. POST requests.", () => {
@@ -244,7 +252,9 @@ describe("5. UPDATE requests.", () => {
       });
   });
   test("status 400 when passed an invalid review_id", () => {
-    const updateRequest = {};
+    const updateRequest = {
+      inc_votes: 1,
+    };
     return request(app)
       .patch("/api/reviews/four")
       .send(updateRequest)
@@ -265,3 +275,7 @@ describe("5. UPDATE requests.", () => {
   });
 });
 
+/*
+have a test to make sure votes can be descreased 
+what if input is "one" and not a number && review_id is valid
+*/

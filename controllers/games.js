@@ -40,6 +40,8 @@ exports.getCommentsById = (request, response) => {
   });
 };
 
+//catch block
+
 exports.addCommentByReviewId = (request, response, next) => {
   createsNewComment(request.body, request.params.review_id)
     .then((comment) => {
